@@ -23,23 +23,34 @@ class _HomePageState extends State<HomePage> {
             GridView.count(
               crossAxisCount: 4,
                 shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               children: [
-                MenuCard(icon: Icons.person_add, title: "Alunos"),
-                MenuCard(icon: Icons.school, title: "Professores"),
-                MenuCard(icon: Icons.book, title: "Disciplinas"),
-                MenuCard(icon: Icons.people, title: "Turmas"),
+                MenuCard(icon: Icons.person_add, title: "Alunos", onTapFunc: () => null,),
+                MenuCard(icon: Icons.school, title: "Professores", onTapFunc: () => null,),
+                MenuCard(icon: Icons.book, title: "Disciplinas", onTapFunc: () => null,),
+                MenuCard(icon: Icons.people, title: "Turmas", onTapFunc: () => null,),
               ],
             ),
             MenuTitle(title: "Gerenciamento"),
             GridView.count(
               crossAxisCount: 4,
               shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               children: [
-                MenuCard(icon: Icons.numbers, title: "Notas"),
-                MenuCard(icon: Icons.check, title: "Frequências")
+                MenuCard(icon: Icons.numbers, title: "Notas", onTapFunc: () => null,),
+                MenuCard(icon: Icons.check, title: "Frequências", onTapFunc: () => null,)
               ],
             ),
-            Flexible(child: Container(),)
+            MenuTitle(title: "Relatórios"),
+            GridView.count(
+              crossAxisCount: 2,
+              childAspectRatio: 2.0,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                MenuCard(icon: Icons.checklist, title: "Aprovação de alunos", onTapFunc: () => null,),
+              ],
+            ),
           ],
         ));
   }
