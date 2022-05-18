@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_controle_frequencias/ui/components/menu_card.dart';
 import 'package:flutter_controle_frequencias/ui/components/menu_title.dart';
+import 'package:flutter_controle_frequencias/ui/management/attendance_page.dart';
+import 'package:flutter_controle_frequencias/ui/management/evaluation_page.dart';
+import 'package:flutter_controle_frequencias/ui/register/class_page.dart';
+import 'package:flutter_controle_frequencias/ui/register/discipline_page.dart';
+import 'package:flutter_controle_frequencias/ui/register/student_page.dart';
+import 'package:flutter_controle_frequencias/ui/register/teacher_page.dart';
+import 'package:flutter_controle_frequencias/ui/report/student_approval_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -25,10 +32,10 @@ class _HomePageState extends State<HomePage> {
                 shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                MenuCard(icon: Icons.person_add, title: "Alunos", onTapFunc: () => null,),
-                MenuCard(icon: Icons.school, title: "Professores", onTapFunc: () => null,),
-                MenuCard(icon: Icons.book, title: "Disciplinas", onTapFunc: () => null,),
-                MenuCard(icon: Icons.people, title: "Turmas", onTapFunc: () => null,),
+                MenuCard(icon: Icons.person_add, title: "Alunos", page: StudentPage(),),
+                MenuCard(icon: Icons.school, title: "Professores", page: TeacherPage(),),
+                MenuCard(icon: Icons.book, title: "Disciplinas", page: DisciplinePage(),),
+                MenuCard(icon: Icons.people, title: "Turmas", page: ClassPage(),),
               ],
             ),
             MenuTitle(title: "Gerenciamento"),
@@ -37,8 +44,8 @@ class _HomePageState extends State<HomePage> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                MenuCard(icon: Icons.numbers, title: "Notas", onTapFunc: () => null,),
-                MenuCard(icon: Icons.check, title: "Frequências", onTapFunc: () => null,)
+                MenuCard(icon: Icons.numbers, title: "Avaliação", page: EvaluationPage(),),
+                MenuCard(icon: Icons.check, title: "Frequências", page: AttendancePage(),)
               ],
             ),
             MenuTitle(title: "Relatórios"),
@@ -48,10 +55,12 @@ class _HomePageState extends State<HomePage> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                MenuCard(icon: Icons.checklist, title: "Aprovação de alunos", onTapFunc: () => null,),
+                MenuCard(icon: Icons.checklist, title: "Aprovação de alunos", page: StudentApprovalPage(),),
               ],
             ),
           ],
         ));
   }
+
+  
 }

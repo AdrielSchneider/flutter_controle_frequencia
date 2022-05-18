@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_controle_frequencias/ui/home_page.dart';
 
 class MenuCard extends StatelessWidget {
-  MenuCard({Key? key, required this.icon, required this.title, required this.onTapFunc}) : super(key: key);
+  MenuCard({Key? key, required this.icon, required this.title, required this.page}) : super(key: key);
 
   IconData icon;
   String title;
-  Function onTapFunc;
+  Widget page;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +17,13 @@ class MenuCard extends StatelessWidget {
             children: [Expanded(child: Icon(icon)), Center(child: Text(title),)],
           )
       ),
-      onTap: onTapFunc(),
+      onTap: () => _openPage(context),
     );
+  }
+
+  void _openPage(context) async {
+    await Navigator.push(context, MaterialPageRoute(
+      builder: (context) => page
+    ));
   }
 }
