@@ -65,16 +65,25 @@ class _RegisterStudentState extends State<RegisterStudent> {
   }
 
   _salvar() async {
-    Student s = await _studentHelper.insert(Student(
+    Student studentToSave = Student(
+        registerNumber: int.tryParse(_registerNumberController.text),
         name: _nameController.text,
         cpf: _cpfController.text,
         registerDate: DateTime.now().toString(),
-        email: _emailController.text));
+        email: _emailController.text);
 
-    if (s.registerNumber != null) {
-      Utils.showToast(context, "Estudante salvo com sucesso!");
+    bool saved = false;
+
+    if (studentToSave.registerNumber == null) {
+      Student s = await _studentHelper.insert(studentToSave);
+      saved = (s.registerNumber != null);
+    } else {
+      saved = (await _studentHelper.update(studentToSave)) != -1;
     }
 
-    Navigator.pop(context);
+    if (saved) {
+      Utils.showToast(context, "Estudante salvo com sucesso!");
+      Navigator.pop(context);
+    }
   }
 }
