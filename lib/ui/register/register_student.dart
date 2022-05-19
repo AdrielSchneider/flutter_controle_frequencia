@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_controle_frequencias/datasources/local/student_helper.dart';
 import 'package:flutter_controle_frequencias/model/student.dart';
 import 'package:flutter_controle_frequencias/ui/components/custom_text_field.dart';
+import 'package:flutter_controle_frequencias/ui/components/utils.dart';
 
 class RegisterStudent extends StatefulWidget {
   RegisterStudent({Key? key, this.student}) : super(key: key);
@@ -52,12 +53,16 @@ class _RegisterStudentState extends State<RegisterStudent> {
     );
   }
 
-  _salvar() {
-    _studentHelper.insert(Student(
+  _salvar() async {
+    Student s = await _studentHelper.insert(Student(
         name: _nameController.text,
         cpf: _cpfController.text,
         registerDate: DateTime.now().toString(),
         email: _emailController.text));
+
+    if (s.registerNumber != null) {
+      Utils.showToast(context, "Estudante salvo com sucesso!");
+    }
 
     Navigator.pop(context);
   }
