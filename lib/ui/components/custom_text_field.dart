@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
-  CustomTextField({Key? key, required this.inputTitle, this.enabled = true, this.controller })
+  CustomTextField(
+      {Key? key,
+      required this.inputTitle,
+      this.enabled = true,
+      this.controller})
       : super(key: key);
 
   String inputTitle;
@@ -21,7 +25,15 @@ class CustomTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
         ),
-        validator: (value) {},
+        validator: (value) {
+          if (enabled) {
+            if (value == null || value.trim().isEmpty) {
+              return 'Campo obrigatório';
+            }
+          }
+
+          return null;
+        },
       ),
     );
   }

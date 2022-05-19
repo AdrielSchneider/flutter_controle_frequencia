@@ -15,6 +15,7 @@ class RegisterStudent extends StatefulWidget {
 
 class _RegisterStudentState extends State<RegisterStudent> {
   final _studentHelper = StudentHelper();
+  final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _registerNumberController =
       TextEditingController();
@@ -36,35 +37,39 @@ class _RegisterStudentState extends State<RegisterStudent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.student?.name ?? 'Cadastrar Aluno')),
-      body: SingleChildScrollView(
-          child: Column(
-        children: [
-          CustomTextField(
-            inputTitle: 'Número de Registro',
-            enabled: false,
-            controller: _registerNumberController,
-          ),
-          CustomTextField(
-            inputTitle: 'Nome',
-            controller: _nameController,
-          ),
-          CustomTextField(
-            inputTitle: 'CPF',
-            controller: _cpfController,
-          ),
-          CustomTextField(
-            inputTitle: 'E-mail',
-            controller: _emailController,
-          ),
-          ElevatedButton(
-              onPressed: () => _salvar(), child: const Text('Salvar'))
-        ],
-      )),
-    );
+        appBar: AppBar(title: Text(widget.student?.name ?? 'Cadastrar Aluno')),
+        body: SingleChildScrollView(
+          child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  CustomTextField(
+                    inputTitle: 'Número de Registro',
+                    enabled: false,
+                    controller: _registerNumberController,
+                  ),
+                  CustomTextField(
+                    inputTitle: 'Nome',
+                    controller: _nameController,
+                  ),
+                  CustomTextField(
+                    inputTitle: 'CPF',
+                    controller: _cpfController,
+                  ),
+                  CustomTextField(
+                    inputTitle: 'E-mail',
+                    controller: _emailController,
+                  ),
+                  ElevatedButton(
+                      onPressed: () => _salvar(), child: const Text('Salvar'))
+                ],
+              )),
+        ));
   }
 
   _salvar() async {
+    if (!_formKey.currentState!.validate()) return;
+
     Student studentToSave = Student(
         registerNumber: int.tryParse(_registerNumberController.text),
         name: _nameController.text,
