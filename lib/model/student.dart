@@ -1,4 +1,4 @@
-class  Student {
+class Student {
   static const table = 'student';
 
   static const columnRegisterNumber = 'registerNumber';
@@ -14,7 +14,7 @@ class  Student {
   // DateTime birthday;
 
   static const columnRegisterDate = 'registerDate';
-  DateTime registerDate;
+  String registerDate;
 
   static const columnEmail = 'email';
   String email;
@@ -32,7 +32,7 @@ class  Student {
         name: map[columnName],
         cpf: map[columnCpf],
         registerDate: map[columnRegisterDate],
-        registerNumber: int.tryParse(map[columnRegisterNumber]) ?? 0,
+        registerNumber: map[columnRegisterNumber] ?? 0,
         email: map[columnEmail]);
   }
 
