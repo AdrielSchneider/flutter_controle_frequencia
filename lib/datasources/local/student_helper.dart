@@ -33,4 +33,11 @@ class StudentHelper {
         where: '${Student.columnRegisterNumber} = ?',
         whereArgs: [student.registerNumber]);
   }
+
+  Future<List<Student>> findAll() async {
+    List dados = await (await getDb())
+        .query(Student.table, orderBy: Student.columnRegisterNumber);
+
+    return dados.map((e) => Student.fromMap(e)).toList();
+  }
 }
