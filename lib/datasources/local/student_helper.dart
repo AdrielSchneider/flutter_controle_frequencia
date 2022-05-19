@@ -21,4 +21,16 @@ class StudentHelper {
         await (await getDb()).insert(Student.table, student.toMap());
     return student;
   }
+
+  Future<int> update(Student student) async {
+    return (await getDb()).update(Student.table, student.toMap(),
+        where: '${Student.columnRegisterNumber} = ?',
+        whereArgs: [student.registerNumber]);
+  }
+
+  Future<int> delete(Student student) async {
+    return (await getDb()).delete(Student.table,
+        where: '${Student.columnRegisterNumber} = ?',
+        whereArgs: [student.registerNumber]);
+  }
 }
