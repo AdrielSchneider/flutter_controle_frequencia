@@ -11,10 +11,10 @@ class Teacher {
   String cpf;
 
   static const columnBirthday = 'birthday';
-  DateTime birthday;
+  String birthday;
 
   static const columnRegisterDate = 'registerDate';
-  DateTime registerDate;
+  String registerDate;
 
   Teacher(
       {required this.name,
@@ -28,7 +28,7 @@ class Teacher {
         name: map[columnName],
         cpf: map[columnCpf],
         registerDate: map[columnRegisterDate],
-        registerNumber: int.tryParse(map[columnRegisterNumber]) ?? 0,
+        registerNumber: map[columnRegisterNumber],
         birthday: map[columnBirthday]);
   }
 
