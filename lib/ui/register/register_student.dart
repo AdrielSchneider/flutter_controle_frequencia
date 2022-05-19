@@ -37,7 +37,19 @@ class _RegisterStudentState extends State<RegisterStudent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(widget.student?.name ?? 'Cadastrar Aluno')),
+        appBar: AppBar(
+          title: Text(widget.student?.name ?? 'Cadastrar Aluno'),
+          actions: [
+            Visibility(
+              visible: widget.student?.registerNumber == null,
+              child: IconButton(
+                  onPressed: _limparCampos, icon: const Icon(Icons.clear)),
+              replacement: IconButton(
+                  onPressed: _excluir, icon: const Icon(Icons.delete)),
+            ),
+            IconButton(onPressed: _salvar, icon: const Icon(Icons.save))
+          ],
+        ),
         body: SingleChildScrollView(
           child: Form(
               key: _formKey,
@@ -60,14 +72,27 @@ class _RegisterStudentState extends State<RegisterStudent> {
                     inputTitle: 'E-mail',
                     controller: _emailController,
                   ),
-                  ElevatedButton(
-                      onPressed: () => _salvar(), child: const Text('Salvar'))
                 ],
               )),
         ));
   }
 
-  _salvar() async {
+  void _limparCampos() {
+    setState(() {
+      _nameController.text = '';
+      _cpfController.text = '';
+      _emailController.text = '';
+    });
+  }
+
+  Future<void> _excluir() async {
+    await _studentHelper.delete(widget.student!);
+
+    Utils.showToast(context, 'Aluno excluído com sucesso');
+    Navigator.pop(context);
+  }
+
+  Future<void> _salvar() async {
     if (!_formKey.currentState!.validate()) return;
 
     Student studentToSave = Student(

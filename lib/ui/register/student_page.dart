@@ -65,10 +65,12 @@ class _StudentPageState extends State<StudentPage> {
     );
   }
 
-  _openStudent(Student? student) {
-    Navigator.push(
+  _openStudent(Student? student) async {
+    await Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => RegisterStudent(student: student)));
+
+    setState(() {});
   }
 }
