@@ -23,6 +23,17 @@ class _RegisterStudentState extends State<RegisterStudent> {
   final TextEditingController _emailController = TextEditingController();
 
   @override
+  void initState() {
+    if (widget.student != null) {
+      _registerNumberController.text =
+          widget.student!.registerNumber!.toString();
+      _nameController.text = widget.student!.name;
+      _cpfController.text = widget.student!.cpf;
+      _emailController.text = widget.student!.email;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.student?.name ?? 'Cadastrar Aluno')),

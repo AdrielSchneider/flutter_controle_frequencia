@@ -22,10 +22,7 @@ class _StudentPageState extends State<StudentPage> {
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () => {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => RegisterStudent()))
-        },
+        onPressed: () => {_openStudent(null)},
       ),
       body: FutureBuilder(
           future: _studentHelper.findAll(),
@@ -53,7 +50,7 @@ class _StudentPageState extends State<StudentPage> {
                             ),
                           ),
                         ),
-                        onTap: () => null,
+                        onTap: () => _openStudent(snapshot.data![index]),
                       );
                     });
               } else {
@@ -66,5 +63,12 @@ class _StudentPageState extends State<StudentPage> {
             }
           }),
     );
+  }
+
+  _openStudent(Student? student) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => RegisterStudent(student: student)));
   }
 }
