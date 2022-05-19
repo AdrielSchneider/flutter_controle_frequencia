@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_controle_frequencias/ui/register/register_teacher_page.dart';
 
 class TeacherPage extends StatefulWidget {
   const TeacherPage({Key? key}) : super(key: key);
@@ -16,9 +17,10 @@ class _TeacherPageState extends State<TeacherPage> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () => null,
-      ),
+          child: const Icon(Icons.add),
+          onPressed: () => {
+                Navigator.push(context, MaterialPageRoute(builder:  (context) => RegisterTeacherPage())),
+              }),
     );
   }
 }

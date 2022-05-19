@@ -1,5 +1,5 @@
-class  Student {
-  static const table = 'student';
+class Teacher {
+  static const table = 'teacher';
 
   static const columnRegisterNumber = 'registerNumber';
   int? registerNumber;
@@ -10,30 +10,26 @@ class  Student {
   static const columnCpf = 'cpf';
   String cpf;
 
-  // static const columnBirthday = 'birthday';
-  // DateTime birthday;
+  static const columnBirthday = 'birthday';
+  DateTime birthday;
 
   static const columnRegisterDate = 'registerDate';
   DateTime registerDate;
 
-  static const columnEmail = 'email';
-  String email;
-
-  Student(
+  Teacher(
       {required this.name,
       required this.cpf,
-      // required this.birthday,
+      required this.birthday,
       required this.registerDate,
-      this.registerNumber,
-      required this.email});
+      this.registerNumber});
 
-  factory Student.fromMap(Map map) {
-    return Student(
+  factory Teacher.fromMap(Map map) {
+    return Teacher(
         name: map[columnName],
         cpf: map[columnCpf],
         registerDate: map[columnRegisterDate],
         registerNumber: int.tryParse(map[columnRegisterNumber]) ?? 0,
-        email: map[columnEmail]);
+        birthday: map[columnBirthday]);
   }
 
   Map<String, dynamic> toMap() {
@@ -42,7 +38,7 @@ class  Student {
       columnCpf: cpf,
       columnRegisterDate: registerDate,
       columnName: name,
-      columnEmail: email
+      columnBirthday: birthday
     };
   }
 }
