@@ -9,8 +9,12 @@ class StudentHelper {
     ${Student.columnName} TEXT,
     ${Student.columnCpf} TEXT,
     ${Student.columnRegisterDate} TEXT,
-    ${Student.columnEmail} TEXT
+    ${Student.columnEmail} TEXT,
+    ${Student.columnStudentClass} INTEGER
+    
   )''';
+
+  //FOREIGN KEY(${Student.columnStudentClass}) REFERENCES ${Team.table}(${Team.id})
 
   Future<Database> getDb() async {
     return (await LocalDatabase().db);
@@ -38,6 +42,19 @@ class StudentHelper {
     List dados = await (await getDb())
         .query(Student.table, orderBy: Student.columnRegisterNumber);
 
+    return dados.map((e) => Student.fromMap(e)).toList();
+  }
+
+  Future<List<Student>> findStudentsWithoutTeam() async {
+    List dados = await (await getDb())
+        .query(Student.table, where: '${Student.columnStudentClass} = NULL');
+
+    return dados.map((e) => Student.fromMap(e)).toList();
+  }
+
+  Future<List<Student>> findByTeamId(int teamId) async {
+    List dados = await (await getDb()).query(Student.table,
+        where: '${Student.columnStudentClass} = ?', whereArgs: [teamId]);
     return dados.map((e) => Student.fromMap(e)).toList();
   }
 }
