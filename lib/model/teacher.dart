@@ -28,7 +28,7 @@ class Teacher {
         name: map[columnName],
         cpf: map[columnCpf],
         registerDate: map[columnRegisterDate],
-        registerNumber: map[columnRegisterNumber],
+        registerNumber: map[columnRegisterNumber] ?? 0,
         birthday: map[columnBirthday]);
   }
 

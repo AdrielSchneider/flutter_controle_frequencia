@@ -18,7 +18,7 @@ class TeacherHelper {
 
   Future<Teacher> insert(Teacher teacher) async {
     teacher.registerNumber =
-    await (await getDb()).insert(Teacher.table, teacher.toMap());
+        await (await getDb()).insert(Teacher.table, teacher.toMap());
     return teacher;
   }
 
