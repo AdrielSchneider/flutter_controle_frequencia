@@ -53,7 +53,7 @@ class _TeacherPageState extends State<TeacherPage> {
                           ),
                         ),
                       ),
-                      onTap: () => null,
+                      onTap:() => _openTeacher(snapshot.data![index]),
                     );
                   });
             } else {
@@ -67,5 +67,12 @@ class _TeacherPageState extends State<TeacherPage> {
         },
       ),
     );
+  }
+
+  _openTeacher(Teacher? teacher) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => RegisterTeacherPage(teacher: teacher)));
   }
 }

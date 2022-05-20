@@ -5,17 +5,21 @@ import 'package:flutter_controle_frequencias/ui/components/custom_text_field.dar
 import 'package:flutter_controle_frequencias/ui/components/utils.dart';
 
 class RegisterTeacherPage extends StatefulWidget {
-  const RegisterTeacherPage({Key? key}) : super(key: key);
+  RegisterTeacherPage({Key? key, this.teacher}) : super(key: key);
+
+  Teacher? teacher;
 
   @override
   State<RegisterTeacherPage> createState() => _RegisterTeacherPageState();
 }
 
 class _RegisterTeacherPageState extends State<RegisterTeacherPage> {
+  final _registerNumberController = TextEditingController();
   final _nomeController = TextEditingController();
   final _cpfController = TextEditingController();
   final _dtNascimentoController = TextEditingController();
   final _dtCadastroController = TextEditingController();
+
   final _teacherHelper = TeacherHelper();
 
   void _limparCampos() {
@@ -28,24 +32,45 @@ class _RegisterTeacherPageState extends State<RegisterTeacherPage> {
   }
 
   void _salvarCampos() async {
-    Teacher teacher = await _teacherHelper.insert(Teacher(
+    Teacher teachertoSave = Teacher(
+        registerNumber: int.tryParse(_registerNumberController.text),
         name: _nomeController.text,
         cpf: _cpfController.text,
         birthday: _dtNascimentoController.text,
-        registerDate: _dtCadastroController.text));
+        registerDate: _dtCadastroController.text);
 
-    if (teacher.registerNumber != null) {
-      Utils.showToast(context, "Professor salvo com sucesso!");
+    bool saved = false;
+
+    if (teachertoSave.registerNumber == null) {
+      Teacher t = await _teacherHelper.insert(teachertoSave);
+      saved = (t.registerNumber != null);
+    } else {
+      saved = (await _teacherHelper.update(teachertoSave)) != -1;
     }
 
-    Navigator.pop(context);
+    if (saved) {
+      Utils.showToast(context, "Professor salvo com sucesso!");
+      Navigator.pop(context);
+    }
+  }
+
+  @override
+  void initState() {
+    if (widget.teacher != null) {
+      _registerNumberController.text =
+          widget.teacher!.registerNumber!.toString();
+      _nomeController.text = widget.teacher!.name;
+      _cpfController.text = widget.teacher!.cpf;
+      _dtNascimentoController.text = widget.teacher!.birthday;
+      _dtCadastroController.text = widget.teacher!.registerDate;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cadastrar Professor'),
+        title: Text(widget.teacher?.name ?? 'Cadastrar Professor'),
         actions: [
           IconButton(onPressed: _limparCampos, icon: Icon(Icons.clear)),
           IconButton(onPressed: _salvarCampos, icon: Icon(Icons.save))
@@ -54,6 +79,11 @@ class _RegisterTeacherPageState extends State<RegisterTeacherPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            CustomTextField(
+              inputTitle: 'Registro',
+              controller: _registerNumberController,
+              enabled: false,
+            ),
             CustomTextField(
               inputTitle: 'Nome',
               controller: _nomeController,
