@@ -4,7 +4,7 @@ import 'package:flutter_controle_frequencias/model/student.dart';
 import 'package:flutter_controle_frequencias/ui/register/register_student_page.dart';
 
 class StudentPage extends StatefulWidget {
-  StudentPage({Key? key}) : super(key: key);
+  const StudentPage({Key? key}) : super(key: key);
 
   @override
   State<StudentPage> createState() => _StudentPageState();

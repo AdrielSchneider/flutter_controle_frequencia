@@ -5,18 +5,23 @@ class CustomTextField extends StatelessWidget {
       {Key? key,
       required this.inputTitle,
       this.enabled = true,
-      this.controller})
+      this.controller,
+      this.margin,
+      this.textInputType})
       : super(key: key);
 
   String inputTitle;
   bool enabled;
   TextEditingController? controller;
+  double? margin;
+  TextInputType? textInputType;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: EdgeInsets.all(margin ?? 10.0),
       child: TextFormField(
+        keyboardType: (textInputType ?? TextInputType.text),
         controller: controller,
         decoration: InputDecoration(
           labelText: inputTitle,

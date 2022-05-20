@@ -29,13 +29,29 @@ class _HomePageState extends State<HomePage> {
             MenuTitle(title: "Cadastros"),
             GridView.count(
               crossAxisCount: 4,
-                shrinkWrap: true,
+              shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                MenuCard(icon: Icons.person_add, title: "Alunos", page: StudentPage(),),
-                MenuCard(icon: Icons.school, title: "Professores", page: TeacherPage(),),
-                MenuCard(icon: Icons.book, title: "Disciplinas", page: DisciplinePage(),),
-                MenuCard(icon: Icons.people, title: "Turmas", page: ClassPage(),),
+                MenuCard(
+                  icon: Icons.person_add,
+                  title: "Alunos",
+                  page: const StudentPage(),
+                ),
+                MenuCard(
+                  icon: Icons.school,
+                  title: "Professores",
+                  page: const TeacherPage(),
+                ),
+                MenuCard(
+                  icon: Icons.book,
+                  title: "Disciplinas",
+                  page: const DisciplinePage(),
+                ),
+                MenuCard(
+                  icon: Icons.people,
+                  title: "Turmas",
+                  page: const ClassPage(),
+                ),
               ],
             ),
             MenuTitle(title: "Gerenciamento"),
@@ -44,8 +60,16 @@ class _HomePageState extends State<HomePage> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                MenuCard(icon: Icons.numbers, title: "Avaliação", page: EvaluationPage(),),
-                MenuCard(icon: Icons.check, title: "Frequências", page: AttendancePage(),)
+                MenuCard(
+                  icon: Icons.numbers,
+                  title: "Avaliação",
+                  page: const EvaluationPage(),
+                ),
+                MenuCard(
+                  icon: Icons.check,
+                  title: "Frequências",
+                  page: const AttendancePage(),
+                )
               ],
             ),
             MenuTitle(title: "Relatórios"),
@@ -55,12 +79,14 @@ class _HomePageState extends State<HomePage> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                MenuCard(icon: Icons.checklist, title: "Aprovação de alunos", page: StudentApprovalPage(),),
+                MenuCard(
+                  icon: Icons.checklist,
+                  title: "Aprovação de alunos",
+                  page: const StudentApprovalPage(),
+                ),
               ],
             ),
           ],
         ));
   }
-
-  
 }
