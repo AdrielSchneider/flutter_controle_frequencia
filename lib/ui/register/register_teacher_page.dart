@@ -21,6 +21,7 @@ class _RegisterTeacherPageState extends State<RegisterTeacherPage> {
   final _dtCadastroController = TextEditingController();
 
   final _teacherHelper = TeacherHelper();
+  final _formKey = GlobalKey<FormState>();
 
   void _limparCampos() {
     setState(() {
@@ -31,7 +32,9 @@ class _RegisterTeacherPageState extends State<RegisterTeacherPage> {
     });
   }
 
-  void _salvarCampos() async {
+  Future<void> _salvarProfessor() async {
+    if (!_formKey.currentState!.validate()) return;
+
     Teacher teachertoSave = Teacher(
         registerNumber: int.tryParse(_registerNumberController.text),
         name: _nomeController.text,
@@ -54,6 +57,12 @@ class _RegisterTeacherPageState extends State<RegisterTeacherPage> {
     }
   }
 
+  Future<void> _excluirEstudante() async {
+    await _teacherHelper.delete(widget.teacher!);
+    Utils.showToast(context, 'Professor excluído com sucesso');
+    Navigator.pop(context);
+  }
+
   @override
   void initState() {
     if (widget.teacher != null) {
@@ -72,35 +81,45 @@ class _RegisterTeacherPageState extends State<RegisterTeacherPage> {
       appBar: AppBar(
         title: Text(widget.teacher?.name ?? 'Cadastrar Professor'),
         actions: [
-          IconButton(onPressed: _limparCampos, icon: Icon(Icons.clear)),
-          IconButton(onPressed: _salvarCampos, icon: Icon(Icons.save))
+          Visibility(
+            visible: widget.teacher?.registerNumber == null,
+            child: IconButton(
+                onPressed: _limparCampos, icon: const Icon(Icons.clear)),
+            replacement: IconButton(
+                onPressed: _excluirEstudante, icon: const Icon(Icons.delete)),
+          ),
+          IconButton(onPressed: _salvarProfessor, icon: Icon(Icons.save))
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            CustomTextField(
-              inputTitle: 'Registro',
-              controller: _registerNumberController,
-              enabled: false,
-            ),
-            CustomTextField(
-              inputTitle: 'Nome',
-              controller: _nomeController,
-            ),
-            CustomTextField(
-              inputTitle: 'CPF',
-              controller: _cpfController,
-            ),
-            CustomTextField(
-              inputTitle: 'Dt. Nascimento',
-              controller: _dtNascimentoController,
-            ),
-            CustomTextField(
-              inputTitle: 'Dt. Cadastro',
-              controller: _dtCadastroController,
-            ),
-          ],
+        child: Form(
+          key: _formKey,
+          child:
+          Column(
+            children: [
+              CustomTextField(
+                inputTitle: 'Registro',
+                controller: _registerNumberController,
+                enabled: false,
+              ),
+              CustomTextField(
+                inputTitle: 'Nome',
+                controller: _nomeController,
+              ),
+              CustomTextField(
+                inputTitle: 'CPF',
+                controller: _cpfController,
+              ),
+              CustomTextField(
+                inputTitle: 'Dt. Nascimento',
+                controller: _dtNascimentoController,
+              ),
+              CustomTextField(
+                inputTitle: 'Dt. Cadastro',
+                controller: _dtCadastroController,
+              ),
+            ],
+          ),
         ),
       ),
     );

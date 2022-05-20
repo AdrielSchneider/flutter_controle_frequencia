@@ -22,12 +22,7 @@ class _TeacherPageState extends State<TeacherPage> {
       ),
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
-          onPressed: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => RegisterTeacherPage())),
-              }),
+          onPressed: () => _openTeacher(null)),
       body: FutureBuilder(
         future: _teacherHelper.findAll(),
         builder: (BuildContext context, AsyncSnapshot<List<Teacher>> snapshot) {
@@ -68,11 +63,11 @@ class _TeacherPageState extends State<TeacherPage> {
       ),
     );
   }
-
-  _openTeacher(Teacher? teacher) {
-    Navigator.push(
+  _openTeacher(Teacher? teacher) async {
+    await Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => RegisterTeacherPage(teacher: teacher)));
+    setState(() {});
   }
 }
