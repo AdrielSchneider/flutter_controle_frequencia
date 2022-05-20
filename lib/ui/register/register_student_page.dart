@@ -55,11 +55,11 @@ class _RegisterStudentState extends State<RegisterStudent> {
               key: _formKey,
               child: Column(
                 children: [
-                  CustomTextField(
-                    inputTitle: 'Número de Registro',
-                    enabled: false,
-                    controller: _registerNumberController,
-                  ),
+                  // CustomTextField(
+                  //   inputTitle: 'Número de Registro',
+                  //   enabled: false,
+                  //   controller: _registerNumberController,
+                  // ),
                   CustomTextField(
                     inputTitle: 'Nome',
                     controller: _nameController,

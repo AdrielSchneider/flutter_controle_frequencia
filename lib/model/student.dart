@@ -19,13 +19,17 @@ class Student {
   static const columnEmail = 'email';
   String email;
 
+  static const columnStudentClass = 'studentClass';
+  int? studentClass;
+
   Student(
       {required this.name,
       required this.cpf,
       // required this.birthday,
       required this.registerDate,
       this.registerNumber,
-      required this.email});
+      required this.email,
+      this.studentClass});
 
   factory Student.fromMap(Map map) {
     return Student(
@@ -33,7 +37,8 @@ class Student {
         cpf: map[columnCpf],
         registerDate: map[columnRegisterDate],
         registerNumber: map[columnRegisterNumber] ?? 0,
-        email: map[columnEmail]);
+        email: map[columnEmail],
+        studentClass: map[columnStudentClass]);
   }
 
   Map<String, dynamic> toMap() {
@@ -42,7 +47,8 @@ class Student {
       columnCpf: cpf,
       columnRegisterDate: registerDate,
       columnName: name,
-      columnEmail: email
+      columnEmail: email,
+      columnStudentClass: studentClass
     };
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_controle_frequencias/datasources/local/student_helper.dart';
 import 'package:flutter_controle_frequencias/model/student.dart';
-import 'package:flutter_controle_frequencias/ui/register/register_student.dart';
+import 'package:flutter_controle_frequencias/ui/register/register_student_page.dart';
 
 class StudentPage extends StatefulWidget {
   StudentPage({Key? key}) : super(key: key);
