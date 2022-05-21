@@ -8,7 +8,8 @@ class CustomTextField extends StatelessWidget {
       this.controller,
       this.margin,
       this.textInputType,
-      this.onNullMessage})
+      this.onNullMessage,
+      this.onTap})
       : super(key: key);
 
   String inputTitle;
@@ -17,6 +18,7 @@ class CustomTextField extends StatelessWidget {
   double? margin;
   TextInputType? textInputType;
   String? onNullMessage;
+  GestureTapCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         keyboardType: (textInputType ?? TextInputType.text),
         controller: controller,
+        onTap: onTap,
         decoration: InputDecoration(
           labelText: inputTitle,
           enabled: enabled,

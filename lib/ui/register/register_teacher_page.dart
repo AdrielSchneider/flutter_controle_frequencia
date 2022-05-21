@@ -23,6 +23,10 @@ class _RegisterTeacherPageState extends State<RegisterTeacherPage> {
   final _teacherHelper = TeacherHelper();
   final _formKey = GlobalKey<FormState>();
 
+  DateTime? selectedDtNascimento;
+  DateTime? selectedDtCadastro;
+
+
   void _limparCampos() {
     setState(() {
       _nomeController.text = '';
@@ -75,6 +79,31 @@ class _RegisterTeacherPageState extends State<RegisterTeacherPage> {
     }
   }
 
+  _selectDate(DateTime? selectedDate, TextEditingController controller) async {
+    final DateTime? selected = await showDatePicker(
+      context: context,
+      initialDate: (selectedDate ?? DateTime.now()),
+      firstDate: DateTime(1930),
+      lastDate: DateTime(2025),
+    );
+    if (selected != null && selected != selectedDate) {
+      setState(() {
+        if (controller == _dtCadastroController) {
+          selectedDtCadastro = selected;
+        } else {
+          selectedDtNascimento = selected;
+        }
+        selectedDate = selected;
+        if (selectedDate != null) {
+          controller.text =
+              '${(selectedDate!.day <= 9 ? '0' : '') + selectedDate!.day.toString()}/${(selectedDate!.month <= 9 ? '0' : '') + selectedDate!.month.toString()}/${selectedDate!.year}';
+        } else {
+          controller.text = '';
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,30 +123,32 @@ class _RegisterTeacherPageState extends State<RegisterTeacherPage> {
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
-          child:
-          Column(
+          child: Column(
             children: [
-              CustomTextField(
+              /*CustomTextField(
                 inputTitle: 'Registro',
                 controller: _registerNumberController,
                 enabled: false,
-              ),
+              ),*/
               CustomTextField(
                 inputTitle: 'Nome',
                 controller: _nomeController,
               ),
               CustomTextField(
-                inputTitle: 'CPF',
-                controller: _cpfController,
-              ),
+                  inputTitle: 'CPF',
+                  controller: _cpfController,
+                  textInputType: TextInputType.number),
               CustomTextField(
                 inputTitle: 'Dt. Nascimento',
                 controller: _dtNascimentoController,
+                textInputType: TextInputType.none,
+                onTap: () => _selectDate(selectedDtNascimento, _dtNascimentoController),
               ),
               CustomTextField(
-                inputTitle: 'Dt. Cadastro',
-                controller: _dtCadastroController,
-              ),
+                  inputTitle: 'Dt. Cadastro',
+                  controller: _dtCadastroController,
+                  textInputType: TextInputType.none,
+                  onTap: () => _selectDate(selectedDtCadastro, _dtCadastroController)),
             ],
           ),
         ),

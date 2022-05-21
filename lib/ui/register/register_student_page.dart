@@ -67,6 +67,7 @@ class _RegisterStudentState extends State<RegisterStudent> {
                   CustomTextField(
                     inputTitle: 'CPF',
                     controller: _cpfController,
+                    textInputType: TextInputType.number,
                   ),
                   CustomTextField(
                     inputTitle: 'E-mail',
