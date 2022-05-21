@@ -3,6 +3,8 @@ import 'package:flutter_controle_frequencias/ui/components/menu_card.dart';
 import 'package:flutter_controle_frequencias/ui/components/menu_title.dart';
 import 'package:flutter_controle_frequencias/ui/management/attendance_page.dart';
 import 'package:flutter_controle_frequencias/ui/management/evaluation_page.dart';
+import 'package:flutter_controle_frequencias/ui/management/team_attendance_page.dart';
+import 'package:flutter_controle_frequencias/ui/management/team_evaluation_page.dart';
 import 'package:flutter_controle_frequencias/ui/register/team_page.dart';
 import 'package:flutter_controle_frequencias/ui/register/discipline_page.dart';
 import 'package:flutter_controle_frequencias/ui/register/student_page.dart';
@@ -63,12 +65,12 @@ class _HomePageState extends State<HomePage> {
                 MenuCard(
                   icon: Icons.numbers,
                   title: "Avaliação",
-                  page: const EvaluationPage(),
+                  page: const TeamEvaluationPage(),
                 ),
                 MenuCard(
                   icon: Icons.check,
                   title: "Frequências",
-                  page: const AttendancePage(),
+                  page: const TeamAttendancePage(),
                 )
               ],
             ),

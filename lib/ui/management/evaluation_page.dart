@@ -5,7 +5,9 @@ import 'package:flutter_controle_frequencias/model/student.dart';
 import 'package:flutter_controle_frequencias/ui/components/custom_text_field.dart';
 
 class EvaluationPage extends StatefulWidget {
-  const EvaluationPage({Key? key}) : super(key: key);
+  EvaluationPage({Key? key, required this.teamId}) : super(key: key);
+
+  int teamId;
 
   @override
   State<EvaluationPage> createState() => EevaluationStatePage();
@@ -29,7 +31,7 @@ class EevaluationStatePage extends State<EvaluationPage> {
         ],
       ),
       body: FutureBuilder(
-        future: _studentHelper.findAll(),
+        future: _studentHelper.findByTeamId(widget.teamId),
         builder: (BuildContext context, AsyncSnapshot<List<Student>> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Form(
@@ -129,9 +131,8 @@ class EevaluationStatePage extends State<EvaluationPage> {
     if (!_formKey.currentState!.validate()) return;
 
     for (var key in controllers.keys) {
-      // TODO - Substituir número da turma
       Evaluation(
-          0,
+          widget.teamId,
           key,
           double.parse(controllers[key]![0].text),
           double.parse(controllers[key]![1].text),

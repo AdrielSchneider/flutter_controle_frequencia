@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_controle_frequencias/datasources/local/student_helper.dart';
 import 'package:flutter_controle_frequencias/model/student.dart';
-import 'package:flutter_controle_frequencias/ui/components/custom_text_field.dart';
 import 'package:flutter_controle_frequencias/ui/components/menu_title.dart';
 
 class AttendancePage extends StatefulWidget {
-  const AttendancePage({Key? key}) : super(key: key);
+  AttendancePage({Key? key, required this.teamId}) : super(key: key);
+
+  int teamId;
 
   @override
-  State<AttendancePage> createState() => AattendancePageState();
+  State<AttendancePage> createState() => AttendancePageState();
 }
 
-class AattendancePageState extends State<AttendancePage> {
+class AttendancePageState extends State<AttendancePage> {
   final StudentHelper _studentHelper = StudentHelper();
 
   DateTime? selectedDate;
@@ -26,7 +27,7 @@ class AattendancePageState extends State<AttendancePage> {
         centerTitle: true,
       ),
       body: FutureBuilder(
-        future: _studentHelper.findAll(),
+        future: _studentHelper.findByTeamId(widget.teamId),
         builder: (BuildContext context, AsyncSnapshot<List<Student>> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return SingleChildScrollView(
