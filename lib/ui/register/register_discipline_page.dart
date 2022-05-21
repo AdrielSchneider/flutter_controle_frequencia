@@ -27,7 +27,6 @@ class _RegisterDisciplinePageState extends State<RegisterDisciplinePage> {
 
   List<Teacher> teacherList = List.empty(growable: true);
 
-
   Future getTeacher() async {
     teacherList = await _teacherHelper.findAll();
   }
@@ -35,7 +34,8 @@ class _RegisterDisciplinePageState extends State<RegisterDisciplinePage> {
   Future<void> _salvarDisciplina() async {
     if (!_formKey.currentState!.validate()) return;
 
-    Discipline disciplinetoSave = Discipline(id: int.tryParse(_idController.text),
+    Discipline disciplinetoSave = Discipline(
+        id: int.tryParse(_idController.text),
         description: _descriptionController.text,
         idTeacher: _selectedTeacher!);
 
@@ -65,14 +65,12 @@ class _RegisterDisciplinePageState extends State<RegisterDisciplinePage> {
       _selectedTeacher = null;
       _descriptionController.text = '';
     });
-
   }
 
   @override
   void initState() {
     if (widget.discipline != null) {
-      _idController.text =
-          widget.discipline!.id!.toString();
+      _idController.text = widget.discipline!.id!.toString();
       _descriptionController.text = widget.discipline!.description;
       _selectedTeacher = widget.discipline!.idTeacher;
     }
@@ -106,24 +104,31 @@ class _RegisterDisciplinePageState extends State<RegisterDisciplinePage> {
                     inputTitle: 'Descrição',
                     controller: _descriptionController,
                   ),
-                  DropdownButtonFormField(
-                    decoration: const InputDecoration(labelText: 'Selecione um professor'),
-                    validator: (value) {
-                      if (value == null) return '';
-                      return null;
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedTeacher = value as int;
-                      });
-                    },
-                    items: teacherList.map((e) {
-                      return DropdownMenuItem<int>(
-                        value: e.registerNumber!,
-                        child: Text(e.name),
-                      );
-                    }).toList(),
-                    value: _selectedTeacher,
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: DropdownButtonFormField(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          labelText: 'Selecione um professor'),
+                      validator: (value) {
+                        if (value == null) return '';
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedTeacher = value as int;
+                        });
+                      },
+                      items: teacherList.map((e) {
+                        return DropdownMenuItem<int>(
+                          value: e.registerNumber!,
+                          child: Text(e.name),
+                        );
+                      }).toList(),
+                      value: _selectedTeacher,
+                    ),
                   )
                 ],
               ),

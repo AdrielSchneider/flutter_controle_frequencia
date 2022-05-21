@@ -57,7 +57,7 @@ class _RegisterTeacherPageState extends State<RegisterTeacherPage> {
     }
   }
 
-  Future<void> _excluirEstudante() async {
+  Future<void> _excluirProfessor() async {
     await _teacherHelper.delete(widget.teacher!);
     Utils.showToast(context, 'Professor excluído com sucesso');
     Navigator.pop(context);
@@ -86,7 +86,7 @@ class _RegisterTeacherPageState extends State<RegisterTeacherPage> {
             child: IconButton(
                 onPressed: _limparCampos, icon: const Icon(Icons.clear)),
             replacement: IconButton(
-                onPressed: _excluirEstudante, icon: const Icon(Icons.delete)),
+                onPressed: _excluirProfessor, icon: const Icon(Icons.delete)),
           ),
           IconButton(onPressed: _salvarProfessor, icon: Icon(Icons.save))
         ],
