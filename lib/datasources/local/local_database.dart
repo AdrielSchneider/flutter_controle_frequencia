@@ -1,3 +1,5 @@
+import 'package:flutter_controle_frequencias/datasources/local/attendance_helper.dart';
+import 'package:flutter_controle_frequencias/datasources/local/attendance_student_helper.dart';
 import 'package:flutter_controle_frequencias/datasources/local/discipline_helper.dart';
 import 'package:flutter_controle_frequencias/datasources/local/student_helper.dart';
 import 'package:flutter_controle_frequencias/datasources/local/teacher_helper.dart';
@@ -33,6 +35,8 @@ class LocalDatabase {
       await db.execute(TeamHelper.createSQL);
       await db.execute(DisciplineHelper.createSQL);
       await db.execute(TeamDisciplineHelper.createSQL);
+      await db.execute(AttendanceHelper.createSQL);
+      await db.execute(AttendanceStudentHelper.createSQL);
     });
   }
 
