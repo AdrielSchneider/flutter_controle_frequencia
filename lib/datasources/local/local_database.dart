@@ -5,6 +5,7 @@ import 'package:flutter_controle_frequencias/datasources/local/student_helper.da
 import 'package:flutter_controle_frequencias/datasources/local/teacher_helper.dart';
 import 'package:flutter_controle_frequencias/datasources/local/team_discipline_helper.dart';
 import 'package:flutter_controle_frequencias/datasources/local/team_helper.dart';
+import 'package:flutter_controle_frequencias/datasources/local/evaluation_helper.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -37,6 +38,7 @@ class LocalDatabase {
       await db.execute(TeamDisciplineHelper.createSQL);
       await db.execute(AttendanceHelper.createSQL);
       await db.execute(AttendanceStudentHelper.createSQL);
+      await db.execute(EvaluationHelper.createSQL);
     });
   }
 

@@ -50,7 +50,7 @@ class _TeamEvaluationPageState extends State<TeamEvaluationPage> {
                     });
               } else {
                 return const Center(
-                  child: Text('Nenhum estudante localizado'),
+                  child: Text('Nenhuma turma localizada'),
                 );
               }
             } else {

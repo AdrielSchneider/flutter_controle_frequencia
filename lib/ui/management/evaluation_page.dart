@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_controle_frequencias/datasources/local/evaluation_helper.dart';
 import 'package:flutter_controle_frequencias/datasources/local/student_helper.dart';
 import 'package:flutter_controle_frequencias/model/evaluation.dart';
 import 'package:flutter_controle_frequencias/model/student.dart';
 import 'package:flutter_controle_frequencias/ui/components/custom_text_field.dart';
+import 'package:flutter_controle_frequencias/ui/components/utils.dart';
 
 class EvaluationPage extends StatefulWidget {
   EvaluationPage({Key? key, required this.teamId}) : super(key: key);
@@ -15,6 +17,7 @@ class EvaluationPage extends StatefulWidget {
 
 class EevaluationStatePage extends State<EvaluationPage> {
   final StudentHelper _studentHelper = StudentHelper();
+  final _evaluationHelper = EvaluationHelper();
 
   Map<int, List<TextEditingController>> controllers = {};
   final _formKey = GlobalKey<FormState>();
@@ -131,14 +134,17 @@ class EevaluationStatePage extends State<EvaluationPage> {
     if (!_formKey.currentState!.validate()) return;
 
     for (var key in controllers.keys) {
-      Evaluation(
-          widget.teamId,
-          key,
-          double.parse(controllers[key]![0].text),
-          double.parse(controllers[key]![1].text),
-          double.parse(controllers[key]![2].text),
-          double.parse(controllers[key]![3].text));
+      _evaluationHelper.insert(Evaluation(
+          teamId: widget.teamId,
+          studentRegisterNumber: key,
+          firstNote: double.parse(controllers[key]![0].text),
+          secondNote: double.parse(controllers[key]![1].text),
+          thirdNote: double.parse(controllers[key]![2].text),
+          fourthNote: double.parse(controllers[key]![3].text)));
     }
+
+    Utils.showToast(context, "Avaliação salva com sucesso!");
+    Navigator.pop(context);
   }
 
   _limparCampos() {
