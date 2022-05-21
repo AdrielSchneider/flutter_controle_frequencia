@@ -7,7 +7,8 @@ class CustomTextField extends StatelessWidget {
       this.enabled = true,
       this.controller,
       this.margin,
-      this.textInputType})
+      this.textInputType,
+      this.onNullMessage})
       : super(key: key);
 
   String inputTitle;
@@ -15,6 +16,7 @@ class CustomTextField extends StatelessWidget {
   TextEditingController? controller;
   double? margin;
   TextInputType? textInputType;
+  String? onNullMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class CustomTextField extends StatelessWidget {
         validator: (value) {
           if (enabled) {
             if (value == null || value.trim().isEmpty) {
-              return 'Campo obrigatório';
+              return (onNullMessage ?? 'Campo obrigatório');
             }
           }
 

@@ -47,7 +47,7 @@ class StudentHelper {
 
   Future<List<Student>> findStudentsWithoutTeam() async {
     List dados = await (await getDb())
-        .query(Student.table, where: '${Student.columnStudentClass} = NULL');
+        .query(Student.table, where: '${Student.columnStudentClass} IS NULL');
 
     return dados.map((e) => Student.fromMap(e)).toList();
   }
@@ -56,5 +56,19 @@ class StudentHelper {
     List dados = await (await getDb()).query(Student.table,
         where: '${Student.columnStudentClass} = ?', whereArgs: [teamId]);
     return dados.map((e) => Student.fromMap(e)).toList();
+  }
+
+  Future<void> updateTeamId(int teamId, int studentId) async {
+    String sql =
+        'UPDATE ${Student.table} SET ${Student.columnStudentClass} = ? WHERE ${Student.columnRegisterNumber} = ?';
+
+    await (await getDb()).rawUpdate(sql, [teamId, studentId]);
+  }
+
+  Future<void> removeTeamId(int teamId) async {
+    String sql =
+        'UPDATE ${Student.table} SET ${Student.columnStudentClass} = NULL WHERE ${Student.columnStudentClass} = ?';
+
+    await (await getDb()).rawUpdate(sql, [teamId]);
   }
 }

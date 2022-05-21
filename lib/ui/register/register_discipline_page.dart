@@ -105,13 +105,14 @@ class _RegisterDisciplinePageState extends State<RegisterDisciplinePage> {
                     controller: _descriptionController,
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: EdgeInsets.all(10.0),
                     child: DropdownButtonFormField(
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          labelText: 'Selecione um professor'),
+                        labelText: 'Selecione um professor',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
                       validator: (value) {
                         if (value == null) return '';
                         return null;

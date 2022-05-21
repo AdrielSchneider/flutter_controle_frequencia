@@ -3,7 +3,7 @@ import 'package:flutter_controle_frequencias/ui/components/menu_card.dart';
 import 'package:flutter_controle_frequencias/ui/components/menu_title.dart';
 import 'package:flutter_controle_frequencias/ui/management/attendance_page.dart';
 import 'package:flutter_controle_frequencias/ui/management/evaluation_page.dart';
-import 'package:flutter_controle_frequencias/ui/register/class_page.dart';
+import 'package:flutter_controle_frequencias/ui/register/team_page.dart';
 import 'package:flutter_controle_frequencias/ui/register/discipline_page.dart';
 import 'package:flutter_controle_frequencias/ui/register/student_page.dart';
 import 'package:flutter_controle_frequencias/ui/register/teacher_page.dart';

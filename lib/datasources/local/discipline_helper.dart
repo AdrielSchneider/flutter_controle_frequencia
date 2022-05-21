@@ -17,20 +17,18 @@ class DisciplineHelper {
 
   Future<Discipline> insert(Discipline discipline) async {
     discipline.id =
-    await (await getDb()).insert(Discipline.table, discipline.toMap());
+        await (await getDb()).insert(Discipline.table, discipline.toMap());
     return discipline;
   }
 
   Future<int> update(Discipline discipline) async {
     return (await getDb()).update(Discipline.table, discipline.toMap(),
-        where: '${Discipline.columnId} = ?',
-        whereArgs: [discipline.id]);
+        where: '${Discipline.columnId} = ?', whereArgs: [discipline.id]);
   }
 
   Future<int> delete(Discipline discipline) async {
     return (await getDb()).delete(Discipline.table,
-        where: '${Discipline.columnId} = ?',
-        whereArgs: [discipline.id]);
+        where: '${Discipline.columnId} = ?', whereArgs: [discipline.id]);
   }
 
   Future<List<Discipline>> findAll() async {

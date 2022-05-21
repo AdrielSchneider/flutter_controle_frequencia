@@ -19,7 +19,7 @@ class Student {
   static const columnEmail = 'email';
   String email;
 
-  static const columnStudentClass = 'studentClass';
+  static const columnStudentClass = 'teamId';
   int? studentClass;
 
   Student(

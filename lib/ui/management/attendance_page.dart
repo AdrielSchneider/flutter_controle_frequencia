@@ -40,7 +40,7 @@ class AattendancePageState extends State<AttendancePage> {
                       Expanded(
                           flex: 1,
                           child: MenuTitle(
-                              title: "Selecionee a data", fontSize: 24.0)),
+                              title: "Selecione a data", fontSize: 24.0)),
                       Expanded(
                           flex: 1,
                           child: TextField(
