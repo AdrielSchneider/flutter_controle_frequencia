@@ -14,7 +14,7 @@ class AttendancePage extends StatefulWidget {
 
 class AttendancePageState extends State<AttendancePage> {
   final StudentHelper _studentHelper = StudentHelper();
-
+  Map<int, bool> mapChecked = {};
   DateTime? selectedDate;
 
   TextEditingController _selectedDateController = TextEditingController();
@@ -53,16 +53,24 @@ class AttendancePageState extends State<AttendancePage> {
                 ),
                 MenuTitle(title: 'Selecione os alunos presentes'),
                 ListView.builder(
+
                     itemCount: snapshot.data!.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
+                      mapChecked.putIfAbsent(snapshot.data![index].registerNumber!, () => true,);
+                      print(mapChecked[snapshot.data![index].registerNumber!]);
                       return CheckboxListTile(
                         visualDensity: VisualDensity.compact,
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          setState(() {
+                            mapChecked[snapshot.data![index].registerNumber!] = value!;
+                          });
+                        },
                         contentPadding: const EdgeInsets.all(8.0),
                         title: Text(snapshot.data![index].name,
                             style: const TextStyle(fontSize: 28)),
-                        value: true,
+                        value: mapChecked[snapshot.data![index].registerNumber!],
+
                       );
                     })
               ]),
