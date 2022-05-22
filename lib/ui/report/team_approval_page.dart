@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_controle_frequencias/datasources/local/attendance_student_helper.dart';
 import 'package:flutter_controle_frequencias/datasources/local/evaluation_helper.dart';
 import 'package:flutter_controle_frequencias/datasources/local/student_helper.dart';
+import 'package:flutter_controle_frequencias/model/attendance_student.dart';
 import 'package:flutter_controle_frequencias/model/evaluation.dart';
 import 'package:flutter_controle_frequencias/model/student.dart';
 
@@ -16,6 +18,7 @@ class TeamApprovalPage extends StatefulWidget {
 class _TeamApprovalPageState extends State<TeamApprovalPage> {
   final _studentHelper = StudentHelper();
   final _evaluationHelper = EvaluationHelper();
+  final _attendanceStudentHelper = AttendanceStudentHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,8 @@ class _TeamApprovalPageState extends State<TeamApprovalPage> {
       body: FutureBuilder(
           future: Future.wait([
             _studentHelper.findByTeamId(widget.teamId),
-            _evaluationHelper.findByTeamId(widget.teamId)
+            _evaluationHelper.findByTeamId(widget.teamId),
+            _attendanceStudentHelper.findAll(),
           ]),
           builder:
               (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
@@ -41,6 +45,8 @@ class _TeamApprovalPageState extends State<TeamApprovalPage> {
                   snapshot.data!.isNotEmpty) {
                 List<Student> studentsList = snapshot.data![0];
                 List<Evaluation> evaluationList = snapshot.data![1];
+                List<AttendanceStudent> attendanceStudentList =
+                    snapshot.data![2];
 
                 return ListView.builder(
                     padding: const EdgeInsets.all(4),
@@ -55,7 +61,7 @@ class _TeamApprovalPageState extends State<TeamApprovalPage> {
                                   flex: 3,
                                   child: Text(
                                     studentsList[index].name,
-                                    style: const TextStyle(fontSize: 28),
+                                    style: const TextStyle(fontSize: 20),
                                   ),
                                 ),
                                 Expanded(
@@ -66,29 +72,31 @@ class _TeamApprovalPageState extends State<TeamApprovalPage> {
                                             element.studentRegisterNumber ==
                                             studentsList[index].registerNumber)
                                         .first),
-                                    style: const TextStyle(fontSize: 28),
+                                    style: const TextStyle(fontSize: 20),
                                   ),
                                 ),
                                 Expanded(
                                   flex: 1,
                                   child: Text(
-                                    _calculateAvg(evaluationList
-                                        .where((element) =>
-                                            element.studentRegisterNumber ==
-                                            studentsList[index].registerNumber)
-                                        .first),
-                                    style: const TextStyle(fontSize: 28),
+                                    _calculateAttendance(attendanceStudentList,
+                                        studentsList[index].registerNumber!),
+                                    style: const TextStyle(fontSize: 20),
                                   ),
                                 ),
                                 Expanded(
                                   flex: 3,
                                   child: Text(
-                                    _checkApproved(evaluationList
-                                        .where((element) =>
-                                            element.studentRegisterNumber ==
-                                            studentsList[index].registerNumber)
-                                        .first),
-                                    style: const TextStyle(fontSize: 28),
+                                    _checkApproved(
+                                        evaluationList
+                                            .where((element) =>
+                                                element.studentRegisterNumber ==
+                                                studentsList[index]
+                                                    .registerNumber)
+                                            .first,
+                                        attendanceStudentList),
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                    ),
                                   ),
                                 )
                               ],
@@ -116,8 +124,30 @@ class _TeamApprovalPageState extends State<TeamApprovalPage> {
         .toStringAsFixed(1);
   }
 
-  String _checkApproved(Evaluation evaluation) {
-    if (double.parse(_calculateAvg(evaluation)) > 7.5) return 'Aprovado';
+  String _calculateAttendance(
+      List<AttendanceStudent> attendanceStudentList, int studentId) {
+    int qtChamadas = 0, qtChamadaAluno = 0;
+
+    for (AttendanceStudent attendanceStudent in attendanceStudentList) {
+      if (attendanceStudent.idStudent == studentId) {
+        qtChamadas += 1;
+        if (attendanceStudent.attendance) {
+          qtChamadaAluno += 1;
+        }
+      }
+    }
+
+    double total = (qtChamadaAluno * 100) / qtChamadas;
+
+    return total.toStringAsFixed(0);
+  }
+
+  String _checkApproved(
+      Evaluation evaluation, List<AttendanceStudent> attendanceStudentList) {
+    if ((double.parse(_calculateAvg(evaluation)) >= 6) &&
+        (double.parse(_calculateAttendance(
+                attendanceStudentList, evaluation.studentRegisterNumber)) >
+            70)) return 'Aprovado';
 
     return 'Reprovado';
   }

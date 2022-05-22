@@ -21,4 +21,17 @@ class AttendanceStudentHelper {
         .insert(AttendanceStudent.table, attendance.toMap());
     return attendance;
   }
+
+  Future<List<AttendanceStudent>> findByIdStudent(int idStudent) async {
+    List dados = await (await getDb()).query(AttendanceStudent.table,
+        where: '${AttendanceStudent.columnIdStudent} = ?', whereArgs: [idStudent]);
+    return dados.map((e) => AttendanceStudent.fromMap(e)).toList();
+  }
+
+  Future<List<AttendanceStudent>> findAll() async {
+    List dados = await (await getDb())
+        .query(AttendanceStudent.table, orderBy: AttendanceStudent.columnId);
+
+    return dados.map((e) => AttendanceStudent.fromMap(e)).toList();
+  }
 }

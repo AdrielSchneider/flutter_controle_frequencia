@@ -17,7 +17,7 @@ class AttendanceStudent {
     return AttendanceStudent(
       id: map[columnId] ?? 0,
       idStudent: map[columnIdStudent],
-      attendance: map[columnAttendance],
+      attendance: map[columnAttendance] == '1' ? true : false,
     );
   }
 
