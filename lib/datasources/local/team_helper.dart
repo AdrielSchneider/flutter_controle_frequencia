@@ -1,4 +1,5 @@
 import 'package:flutter_controle_frequencias/datasources/local/local_database.dart';
+import 'package:flutter_controle_frequencias/model/evaluation.dart';
 import 'package:flutter_controle_frequencias/model/team.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -15,26 +16,30 @@ class TeamHelper {
   }
 
   Future<Team> insert(Team team) async {
-    team.id =
-    await (await getDb()).insert(Team.table, team.toMap());
+    team.id = await (await getDb()).insert(Team.table, team.toMap());
     return team;
   }
 
   Future<int> update(Team team) async {
     return (await getDb()).update(Team.table, team.toMap(),
-        where: '${Team.columnId} = ?',
-        whereArgs: [team.id]);
+        where: '${Team.columnId} = ?', whereArgs: [team.id]);
   }
 
   Future<int> delete(Team team) async {
     return (await getDb()).delete(Team.table,
-        where: '${Team.columnId} = ?',
-        whereArgs: [team.id]);
+        where: '${Team.columnId} = ?', whereArgs: [team.id]);
   }
 
   Future<List<Team>> findAll() async {
-    List dados = await (await getDb())
-        .query(Team.table, orderBy: Team.columnId);
+    List dados =
+        await (await getDb()).query(Team.table, orderBy: Team.columnId);
+
+    return dados.map((e) => Team.fromMap(e)).toList();
+  }
+
+  Future<List<Team>> findNotEvaluated() async {
+    List dados = await (await getDb()).rawQuery(
+        'SELECT * FROM ${Team.table} LEFT JOIN ${Evaluation.table} EVAL ON (${Evaluation.columnTeamId} = ${Team.columnId}) WHERE EVAL.${Evaluation.columnTeamId} IS NULL');
 
     return dados.map((e) => Team.fromMap(e)).toList();
   }

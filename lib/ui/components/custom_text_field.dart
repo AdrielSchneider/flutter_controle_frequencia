@@ -9,7 +9,9 @@ class CustomTextField extends StatelessWidget {
       this.margin,
       this.textInputType,
       this.onNullMessage,
-      this.onTap})
+      this.onTap,
+      this.minDoubleValue,
+      this.maxDoubleValue})
       : super(key: key);
 
   String inputTitle;
@@ -19,6 +21,8 @@ class CustomTextField extends StatelessWidget {
   TextInputType? textInputType;
   String? onNullMessage;
   GestureTapCallback? onTap;
+  double? minDoubleValue;
+  double? maxDoubleValue;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +43,13 @@ class CustomTextField extends StatelessWidget {
           if (enabled) {
             if (value == null || value.trim().isEmpty) {
               return (onNullMessage ?? 'Campo obrigatório');
+            }
+
+            if (minDoubleValue != null || maxDoubleValue != null) {
+              if (((double.tryParse(value) ?? 0) < minDoubleValue!) ||
+                  ((double.tryParse(value) ?? 0) > maxDoubleValue!)) {
+                return '';
+              }
             }
           }
 

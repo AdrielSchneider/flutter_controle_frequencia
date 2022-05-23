@@ -5,6 +5,7 @@ import 'package:flutter_controle_frequencias/datasources/local/student_helper.da
 import 'package:flutter_controle_frequencias/model/attendance_student.dart';
 import 'package:flutter_controle_frequencias/model/evaluation.dart';
 import 'package:flutter_controle_frequencias/model/student.dart';
+import 'package:flutter_controle_frequencias/ui/components/menu_title.dart';
 
 class TeamApprovalPage extends StatefulWidget {
   TeamApprovalPage({Key? key, required this.teamId}) : super(key: key);
@@ -48,61 +49,77 @@ class _TeamApprovalPageState extends State<TeamApprovalPage> {
                 List<AttendanceStudent> attendanceStudentList =
                     snapshot.data![2];
 
-                return ListView.builder(
-                    padding: const EdgeInsets.all(4),
-                    itemCount: studentsList.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 3,
-                                  child: Text(
-                                    studentsList[index].name,
-                                    style: const TextStyle(fontSize: 20),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    _calculateAvg(evaluationList
-                                        .where((element) =>
-                                            element.studentRegisterNumber ==
-                                            studentsList[index].registerNumber)
-                                        .first),
-                                    style: const TextStyle(fontSize: 20),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    _calculateAttendance(attendanceStudentList,
-                                        studentsList[index].registerNumber!),
-                                    style: const TextStyle(fontSize: 20),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 3,
-                                  child: Text(
-                                    _checkApproved(
-                                        evaluationList
+                return Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                      child: Row(
+                        children: [
+                          Expanded(flex: 3, child: MenuTitle(title: "Aluno")),
+                          Expanded(flex: 1, child: MenuTitle(title: "Média")),
+                          Expanded(flex: 1, child: MenuTitle(title: "Freq.")),
+                          Expanded(
+                              flex: 3, child: MenuTitle(title: "Resultado")),
+                        ],
+                      ),
+                    ),
+                    ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.all(4),
+                        itemCount: studentsList.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 3,
+                                      child: Text(
+                                        studentsList[index].name,
+                                        style: const TextStyle(fontSize: 20),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        _calculateAvg(evaluationList
                                             .where((element) =>
                                                 element.studentRegisterNumber ==
                                                 studentsList[index]
                                                     .registerNumber)
-                                            .first,
-                                        attendanceStudentList),
-                                    style: const TextStyle(
-                                      fontSize: 20,
+                                            .first),
+                                        style: const TextStyle(fontSize: 20),
+                                      ),
                                     ),
-                                  ),
-                                )
-                              ],
-                            )),
-                      );
-                    });
+                                    Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        _calculateAttendance(
+                                            attendanceStudentList,
+                                            studentsList[index]
+                                                .registerNumber!),
+                                        style: const TextStyle(fontSize: 20),
+                                      ),
+                                    ),
+                                    Expanded(
+                                        flex: 3,
+                                        child: _checkApproved(
+                                            evaluationList
+                                                .where((element) =>
+                                                    element
+                                                        .studentRegisterNumber ==
+                                                    studentsList[index]
+                                                        .registerNumber)
+                                                .first,
+                                            attendanceStudentList))
+                                  ],
+                                )),
+                          );
+                        }),
+                  ],
+                );
               } else {
                 return const Center(
                   child: Text('Nenhum estudante localizado'),
@@ -142,13 +159,23 @@ class _TeamApprovalPageState extends State<TeamApprovalPage> {
     return total.toStringAsFixed(0);
   }
 
-  String _checkApproved(
+  Widget _checkApproved(
       Evaluation evaluation, List<AttendanceStudent> attendanceStudentList) {
+    var result = '';
     if ((double.parse(_calculateAvg(evaluation)) >= 6) &&
         (double.parse(_calculateAttendance(
                 attendanceStudentList, evaluation.studentRegisterNumber)) >
-            70)) return 'Aprovado';
+            70)) {
+      result = 'Aprovado';
+    } else {
+      result = 'Reprovado';
+    }
 
-    return 'Reprovado';
+    return Text(
+      result,
+      style: TextStyle(
+          fontSize: 20,
+          color: (result == 'Aprovado' ? Colors.green : Colors.red)),
+    );
   }
 }

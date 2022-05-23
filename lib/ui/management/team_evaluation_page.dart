@@ -21,7 +21,7 @@ class _TeamEvaluationPageState extends State<TeamEvaluationPage> {
         centerTitle: true,
       ),
       body: FutureBuilder(
-          future: _teamHelper.findAll(),
+          future: _teamHelper.findNotEvaluated(),
           builder: (BuildContext context, AsyncSnapshot<List<Team>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(

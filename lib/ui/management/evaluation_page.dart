@@ -83,6 +83,8 @@ class EevaluationStatePage extends State<EvaluationPage> {
                                     textInputType:
                                         const TextInputType.numberWithOptions(),
                                     onNullMessage: '',
+                                    minDoubleValue: 0,
+                                    maxDoubleValue: 10,
                                   )),
                               Expanded(
                                   flex: 1,
@@ -94,6 +96,8 @@ class EevaluationStatePage extends State<EvaluationPage> {
                                     textInputType:
                                         const TextInputType.numberWithOptions(),
                                     onNullMessage: '',
+                                    minDoubleValue: 0,
+                                    maxDoubleValue: 10,
                                   )),
                               Expanded(
                                   flex: 1,
@@ -105,6 +109,8 @@ class EevaluationStatePage extends State<EvaluationPage> {
                                     textInputType:
                                         const TextInputType.numberWithOptions(),
                                     onNullMessage: '',
+                                    minDoubleValue: 0,
+                                    maxDoubleValue: 10,
                                   )),
                               Expanded(
                                   flex: 1,
@@ -116,6 +122,8 @@ class EevaluationStatePage extends State<EvaluationPage> {
                                     textInputType:
                                         const TextInputType.numberWithOptions(),
                                     onNullMessage: '',
+                                    minDoubleValue: 0,
+                                    maxDoubleValue: 10,
                                   )),
                             ],
                           )),
@@ -131,7 +139,11 @@ class EevaluationStatePage extends State<EvaluationPage> {
   }
 
   _saveEvaluation() {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) {
+      Utils.showToast(
+          context, 'Preencha todos os campos com valores de 0 a 10');
+      return;
+    }
 
     for (var key in controllers.keys) {
       _evaluationHelper.insert(Evaluation(
